@@ -1,0 +1,21 @@
+{
+  "name": "HK Flooring - Edmonton's Trusted Flooring Experts",
+  "short_name": "HK Flooring",
+  "description": "Professional vinyl, laminate & hardwood flooring installation in Edmonton. 18+ years experience.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
