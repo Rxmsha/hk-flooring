@@ -1,133 +1,142 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import gsap from "gsap";
 
-// Project photos - add more as you get them from Gabby
-const projects = [
-  // Real project photos
-  {
-    id: 1,
-    title: "Self-Levelling - Before",
-    category: "leveling",
-    image: "/images/projects/self-levelling-1.png",
-    type: "image",
-  },
-  {
-    id: 2,
-    title: "Self-Levelling - During",
-    category: "leveling",
-    image: "/images/projects/self-levelling-2.png",
-    type: "image",
-  },
-  {
-    id: 3,
-    title: "Self-Levelling - After",
-    category: "leveling",
-    image: "/images/projects/self-levelling-3.png",
-    type: "image",
-  },
-  {
-    id: 9,
-    title: "Floor Prep - Before",
-    category: "leveling",
-    image: "/images/projects/prep-floor-1.png",
-    type: "image",
-  },
-  {
-    id: 10,
-    title: "Floor Prep - After",
-    category: "leveling",
-    image: "/images/projects/prep-floor-2.png",
-    type: "image",
-  },
-  {
-    id: 11,
-    title: "Floor Grinding",
-    category: "leveling",
-    image: "/images/projects/grinder-flooring-1.png",
-    type: "image",
-  },
-  {
-    id: 12,
-    title: "Floor Grinding Process",
-    category: "leveling",
-    image: "/images/projects/grinder-flooring-2.mov",
-    type: "video",
-  },
-  // Vinyl plank click projects
-  {
-    id: 13,
-    title: "Vinyl Plank Installation",
-    category: "vinyl",
-    image: "/images/projects/vinyl-1.jpg",
-    type: "image",
-  },
-  {
-    id: 14,
-    title: "Vinyl Plank Flooring",
-    category: "vinyl",
-    image: "/images/projects/vinyl-2.jpg",
-    type: "image",
-  },
-  {
-    id: 15,
-    title: "Vinyl Click Flooring",
-    category: "vinyl",
-    image: "/images/projects/vinyl-3.jpg",
-    type: "image",
-  },
-  {
-    id: 16,
-    title: "Vinyl Plank Complete",
-    category: "vinyl",
-    image: "/images/projects/vinyl-4.jpg",
-    type: "image",
-  },
-  ];
-
-const categories = [
-  { id: "all", label: "All Projects" },
-  { id: "vinyl", label: "Vinyl" },
-  { id: "laminate", label: "Laminate" },
-  { id: "hardwood", label: "Hardwood" },
-  { id: "leveling", label: "Floor Leveling" },
+// Collect all project images
+const allImages = [
+  // Project 1
+  ...Array.from({ length: 10 }, (_, i) => ({
+    src: `/images/projects/project1/${i + 1}.jpg`,
+    project: "Project 1",
+  })),
+  // Project 2
+  ...Array.from({ length: 10 }, (_, i) => ({
+    src: `/images/projects/project2/${i + 1}.jpg`,
+    project: "Project 2",
+  })),
+  // Project 3
+  ...Array.from({ length: 7 }, (_, i) => ({
+    src: `/images/projects/project3/${i + 1}.jpg`,
+    project: "Project 3",
+  })),
+  // Project 4
+  ...Array.from({ length: 4 }, (_, i) => ({
+    src: `/images/projects/project4/${i + 1}.jpg`,
+    project: "Project 4",
+  })),
+  // Project 5
+  ...Array.from({ length: 9 }, (_, i) => ({
+    src: `/images/projects/project5/${i + 1}.jpg`,
+    project: "Project 5",
+  })),
+  // Vinyl projects
+  { src: "/images/projects/vinyl-1.jpg", project: "Vinyl Installation" },
+  { src: "/images/projects/vinyl-2.jpg", project: "Vinyl Installation" },
+  { src: "/images/projects/vinyl-3.jpg", project: "Vinyl Installation" },
+  { src: "/images/projects/vinyl-4.jpg", project: "Vinyl Installation" },
+  // Floor prep
+  { src: "/images/projects/self-levelling-1.png", project: "Floor Leveling" },
+  { src: "/images/projects/self-levelling-2.png", project: "Floor Leveling" },
+  { src: "/images/projects/self-levelling-3.png", project: "Floor Leveling" },
+  { src: "/images/projects/prep-floor-1.png", project: "Floor Prep" },
+  { src: "/images/projects/prep-floor-2.png", project: "Floor Prep" },
+  { src: "/images/projects/grinder-flooring-1.png", project: "Floor Grinding" },
 ];
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const filteredProjects =
-    activeCategory === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+  // Number of visible cards on each side
+  const visibleCards = 3;
+
+  const getVisibleImages = () => {
+    const images = [];
+    for (let i = -visibleCards; i <= visibleCards; i++) {
+      const index = (currentIndex + i + allImages.length) % allImages.length;
+      images.push({ ...allImages[index], offset: i, actualIndex: index });
+    }
+    return images;
+  };
+
+  const animateCards = () => {
+    if (!cardsRef.current.length) return;
+
+    cardsRef.current.forEach((card, i) => {
+      if (!card) return;
+
+      const offset = i - visibleCards;
+      const absOffset = Math.abs(offset);
+
+      // Calculate position, scale, and opacity based on offset
+      const xPos = offset * 280;
+      const zPos = -absOffset * 150;
+      const rotateY = offset * -15;
+      const scale = 1 - absOffset * 0.15;
+      const opacity = 1 - absOffset * 0.25;
+
+      gsap.to(card, {
+        x: xPos,
+        z: zPos,
+        rotateY: rotateY,
+        scale: Math.max(scale, 0.5),
+        opacity: Math.max(opacity, 0.2),
+        duration: 0.6,
+        ease: "power3.out",
+      });
+    });
+  };
+
+  useEffect(() => {
+    animateCards();
+  }, [currentIndex]);
 
   const handlePrev = () => {
-    if (selectedImage === null) return;
-    const currentIndex = filteredProjects.findIndex(
-      (p) => p.id === selectedImage
-    );
-    const prevIndex =
-      (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
-    setSelectedImage(filteredProjects[prevIndex].id);
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+    setTimeout(() => setIsAnimating(false), 600);
   };
 
   const handleNext = () => {
-    if (selectedImage === null) return;
-    const currentIndex = filteredProjects.findIndex(
-      (p) => p.id === selectedImage
-    );
-    const nextIndex = (currentIndex + 1) % filteredProjects.length;
-    setSelectedImage(filteredProjects[nextIndex].id);
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev + 1) % allImages.length);
+    setTimeout(() => setIsAnimating(false), 600);
   };
 
+  // Auto-play
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isAnimating) {
+        handleNext();
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAnimating]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isAnimating]);
+
+  const visibleImages = getVisibleImages();
+
   return (
-    <section id="gallery" className="section section-dark">
+    <section id="gallery" className="section section-dark overflow-hidden">
       <div className="container">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -152,79 +161,92 @@ export default function Gallery() {
             transition={{ delay: 0.2 }}
             className="text-white/60 max-w-2xl mx-auto"
           >
-            Browse through our recent installations. Each project showcases our
-            commitment to quality and attention to detail.
+            Browse through our {allImages.length}+ project photos. Use arrows or swipe to explore.
           </motion.p>
         </div>
 
-        {/* Filter Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
-        >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category.id
-                  ? "bg-[var(--color-accent)] text-[var(--color-primary)]"
-                  : "bg-white/10 text-white/70 hover:bg-white/20"
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Gallery Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`relative group cursor-pointer overflow-hidden rounded-lg ${
-                  index === 0 ? "sm:col-span-2 sm:row-span-2" : ""
-                }`}
-                onClick={() => setSelectedImage(project.id)}
+        {/* 3D Slider */}
+        <div className="relative h-[500px] md:h-[600px] lg:h-[700px]" style={{ perspective: "1500px" }}>
+          {/* Slider Container */}
+          <div
+            ref={sliderRef}
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {visibleImages.map((image, index) => (
+              <div
+                key={`${image.actualIndex}-${index}`}
+                ref={(el) => {
+                  if (el) cardsRef.current[index] = el;
+                }}
+                className="absolute w-[300px] md:w-[400px] lg:w-[500px] aspect-[4/3] rounded-xl overflow-hidden shadow-2xl cursor-pointer"
+                style={{
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
+                }}
+                onClick={() => {
+                  if (image.offset < 0) handlePrev();
+                  if (image.offset > 0) handleNext();
+                }}
               >
+                {/* Image */}
                 <div
-                  className={`${
-                    index === 0 ? "aspect-square" : "aspect-[4/3]"
-                  } bg-cover bg-center transition-transform duration-700 group-hover:scale-110`}
-                  style={{ backgroundImage: `url('${project.image}')` }}
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${image.src}')` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-white font-medium">{project.title}</p>
-                  <p className="text-white/60 text-sm capitalize">
-                    {project.category}
-                  </p>
-                </div>
-                {project.type === "video" && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-[var(--color-accent)] rounded-full flex items-center justify-center">
-                      <Play
-                        size={24}
-                        className="text-[var(--color-primary)] ml-1"
-                      />
-                    </div>
+
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+
+                {/* Project Label */}
+                {image.offset === 0 && (
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <p className="text-white font-semibold text-lg">{image.project}</p>
+                    <p className="text-white/60 text-sm">
+                      {image.actualIndex + 1} of {allImages.length}
+                    </p>
                   </div>
                 )}
-              </motion.div>
+
+                {/* Reflection effect for center card */}
+                {image.offset === 0 && (
+                  <div className="absolute inset-0 border-2 border-[var(--color-accent)]/30 rounded-xl" />
+                )}
+              </div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={handlePrev}
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--color-accent)] hover:text-[var(--color-primary)] transition-all duration-300 group"
+          >
+            <ChevronLeft size={28} className="group-hover:scale-110 transition-transform" />
+          </button>
+          <button
+            onClick={handleNext}
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--color-accent)] hover:text-[var(--color-primary)] transition-all duration-300 group"
+          >
+            <ChevronRight size={28} className="group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* Progress Dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {Array.from({ length: Math.min(10, allImages.length) }).map((_, i) => {
+              const dotIndex = Math.floor((currentIndex / allImages.length) * 10);
+              return (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    i === dotIndex
+                      ? "bg-[var(--color-accent)] w-6"
+                      : "bg-white/30"
+                  }`}
+                />
+              );
+            })}
+          </div>
+        </div>
 
         {/* Instagram CTA */}
         <motion.div
@@ -258,54 +280,6 @@ export default function Gallery() {
           </a>
         </motion.div>
       </div>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedImage !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[var(--color-primary)]/95 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
-          >
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 text-white/80 hover:text-white"
-            >
-              <X size={32} />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrev();
-              }}
-              className="absolute left-6 text-white/80 hover:text-white"
-            >
-              <ChevronLeft size={48} />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNext();
-              }}
-              className="absolute right-6 text-white/80 hover:text-white"
-            >
-              <ChevronRight size={48} />
-            </button>
-            <motion.img
-              key={selectedImage}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              src={projects.find((p) => p.id === selectedImage)?.image}
-              alt=""
-              className="max-w-full max-h-[80vh] object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

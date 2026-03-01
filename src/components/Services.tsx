@@ -135,16 +135,16 @@ export default function Services() {
           <p className="text-white/80">
             We also offer{" "}
             <span className="text-[var(--color-accent)]">stair installation</span>,{" "}
-            <span className="text-[var(--color-accent)]">
-              baseboard installation
-            </span>
-            , and{" "}
+            <span className="text-[var(--color-accent)]">baseboards</span>,{" "}
+            <span className="text-[var(--color-accent)]">casing</span>, and{" "}
             <span className="text-[var(--color-accent)]">floor removal</span>
             .
-            <br />
-            <span className="text-white/60 text-sm">
-              Contact us for a complete assessment of your project needs.
-            </span>
+          </p>
+          <p className="text-white mt-3">
+            Commercial projects welcome - <span className="text-[var(--color-accent)]">gyms</span>, <span className="text-[var(--color-accent)]">schools</span>, and more.
+          </p>
+          <p className="text-white/60 text-sm mt-2">
+            Contact us for a complete assessment of your project needs.
           </p>
         </motion.div>
       </div>

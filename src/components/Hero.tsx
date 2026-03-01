@@ -65,12 +65,29 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/70 mb-10 max-w-xl leading-relaxed"
+            className="text-lg md:text-xl text-white/70 mb-6 max-w-xl leading-relaxed"
           >
             From elegant hardwood to modern vinyl, we transform Edmonton homes
             with precision craftsmanship and a commitment to quality that's
             built to last.
           </motion.p>
+
+          {/* Key Features */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="flex flex-col sm:flex-row gap-4 mb-10 text-white/80"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-[var(--color-accent)]">✓</span>
+              <span>We supply materials & install</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[var(--color-accent)]">✓</span>
+              <span>Free samples brought to your home</span>
+            </div>
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
@@ -104,7 +121,7 @@ export default function Hero() {
             </div>
             <div>
               <div className="text-4xl md:text-5xl font-bold text-[var(--color-accent)]">
-                100+
+                700+
               </div>
               <div className="text-white/60 text-sm mt-1">
                 Projects Completed

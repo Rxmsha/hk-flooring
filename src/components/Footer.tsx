@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Phone, MapPin, ArrowUp } from "lucide-react";
+import Image from "next/image";
 
 const quickLinks = [
   { name: "Home", href: "#home" },
@@ -31,12 +32,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <a href="#home" className="inline-block mb-6">
-              <span className="text-3xl font-bold tracking-tight">
-                HK<span className="text-[var(--color-accent)]">.</span>
-              </span>
-              <span className="block text-xs text-white/60 tracking-[3px] uppercase">
-                Flooring
-              </span>
+              <Image src="/images/logo_transparent.png" alt="HK Flooring" width={80} height={80} />
             </a>
             <p className="text-white/60 mb-6 leading-relaxed">
               Edmonton's trusted flooring experts since 2006. Quality

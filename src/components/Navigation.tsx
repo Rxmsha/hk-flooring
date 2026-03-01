@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -39,12 +40,7 @@ export default function Navigation() {
         <div className="container flex items-center justify-between">
           {/* Logo */}
           <a href="#home" className="relative z-10">
-            <span className="text-2xl font-bold text-white tracking-tight">
-              HK<span className="text-[var(--color-accent)]">.</span>
-            </span>
-            <span className="block text-[10px] text-white/60 tracking-[3px] uppercase">
-              Flooring
-            </span>
+            <Image src="/images/logo_transparent.png" alt="HK Flooring" width={100} height={100} className="-my-6" />
           </a>
 
           {/* Desktop Navigation */}

@@ -195,7 +195,7 @@ export default function Contact() {
                 />
                 <h3 className="text-2xl font-semibold mb-4">Thank You!</h3>
                 <p className="text-[var(--color-warm-gray)]">
-                  We've received your request and will contact you within 24
+                  We've received your request. Gabby will contact you within 24
                   hours.
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function Contact() {
                   Request a Free Estimate
                 </h3>
                 <p className="text-[var(--color-warm-gray)] text-sm mb-8">
-                  Fill out the form below and we'll get back to you shortly.
+                  Fill out the form below and Gabby will personally get back to you shortly.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
