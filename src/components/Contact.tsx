@@ -148,7 +148,7 @@ export default function Contact() {
               </p>
               <div className="flex gap-4">
                 <a
-                  href="https://instagram.com/hk_flooring.ltd"
+                  href="https://www.instagram.com/hk_plus_flooring.ltd/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white hover:bg-[var(--color-accent)] hover:text-[var(--color-primary)] transition-colors"

@@ -125,7 +125,7 @@ const jsonLd = {
     },
   ],
   sameAs: [
-    "https://www.instagram.com/hk_flooring.ltd/",
+    "https://www.instagram.com/hk_plus_flooring.ltd/",
     "https://www.facebook.com/p/HK-Flooring-LTD-100063537341975/",
   ],
   priceRange: "$$",

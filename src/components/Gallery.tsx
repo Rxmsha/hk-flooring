@@ -259,12 +259,12 @@ export default function Gallery() {
             See more of our work on Instagram
           </p>
           <a
-            href="https://instagram.com/hk_flooring.ltd"
+            href="https://www.instagram.com/hk_plus_flooring.ltd/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[var(--color-accent)] font-semibold hover:underline"
           >
-            @hk_flooring.ltd
+            @hk_plus_flooring.ltd
             <svg
               className="w-5 h-5"
               fill="currentColor"
