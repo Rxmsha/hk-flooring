@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     service: "",
@@ -27,6 +28,7 @@ export default function Contact() {
         },
         body: JSON.stringify({
           name: formData.name,
+          email: formData.email,
           phone: formData.phone,
           address: formData.address,
           service: formData.service,
@@ -228,13 +230,32 @@ export default function Contact() {
                     />
                   </div>
 
+                  {/* Email */}
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium mb-2"
+                    >
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-white rounded-lg border border-transparent focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                    />
+                  </div>
+
                   {/* Phone */}
                   <div>
                     <label
                       htmlFor="phone"
                       className="block text-sm font-medium mb-2"
                     >
-                      Phone Number *
+                      Phone Number (optional)
                     </label>
                     <input
                       type="tel"
@@ -242,7 +263,6 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      required
                       className="w-full px-4 py-3 bg-white rounded-lg border border-transparent focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                     />
                   </div>
