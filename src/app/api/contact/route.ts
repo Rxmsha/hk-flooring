@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "rimsha.memon21@gmail.com",
+      to: "hkplusflooring1981@gmail.com",
       subject: `New Quote Request from ${name}`,
       html: `
         <h2>New Quote Request from HK Flooring Website</h2>
