@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Droplets, Layers, TreeDeciduous, Wrench } from "lucide-react";
+import { ArrowUpRight, Droplets, Layers, TreeDeciduous, Wrench, Frame } from "lucide-react";
 
 const services = [
   {
@@ -31,6 +31,13 @@ const services = [
     description:
       "Professional subfloor preparation, self-leveling, and grinding services. The foundation for a perfect floor installation.",
     features: ["Self-Leveling", "Grinding", "Subfloor Repair"],
+  },
+  {
+    icon: Frame,
+    title: "Baseboards & Casing",
+    description:
+      "Complete your flooring project with professional baseboard and casing installation. Clean lines and perfect finishes throughout.",
+    features: ["Clean Finish", "Custom Fitting", "Professional Install"],
   },
 ];
 
@@ -135,8 +142,6 @@ export default function Services() {
           <p className="text-white/80">
             We also offer{" "}
             <span className="text-[var(--color-accent)]">stair installation</span>,{" "}
-            <span className="text-[var(--color-accent)]">baseboards</span>,{" "}
-            <span className="text-[var(--color-accent)]">casing</span>, and{" "}
             <span className="text-[var(--color-accent)]">floor removal</span>
             .
           </p>
