@@ -18,6 +18,10 @@ const services = [
   "Hardwood Flooring",
   "Stair Installation",
   "Floor Leveling",
+  "Baseboards & Casing",
+  "Floor Removal",
+  "We Supply & Install",
+  "Free Samples to Your Home",
 ];
 
 export default function Footer() {
