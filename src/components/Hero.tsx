@@ -14,7 +14,7 @@ export default function Hero() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2574')`,
+            backgroundImage: `url('/images/hero-image.jpg')`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/95 via-[var(--color-primary)]/80 to-[var(--color-primary)]/40" />
