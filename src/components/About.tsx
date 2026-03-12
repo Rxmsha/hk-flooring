@@ -51,7 +51,7 @@ export default function About() {
             {/* Main Image */}
             <div className="relative z-10 rounded-lg overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2574"
+                src="/images/hero-image.jpg"
                 alt="HK Flooring at work"
                 className="w-full h-[500px] object-cover"
               />
