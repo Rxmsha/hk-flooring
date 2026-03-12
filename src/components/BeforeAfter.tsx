@@ -23,24 +23,62 @@ const beforeAfterProjects = [
       { src: "/images/projects/self-levelling-3.png", label: "After" },
     ],
   },
+  {
+    id: 3,
+    title: "Stairs 1",
+    description: "Complete stair transformation with premium flooring",
+    images: [
+      { src: "/images/projects/stairs-1-before.jpg", label: "Before" },
+      { src: "/images/projects/stairs-1-after.jpg", label: "After" },
+    ],
+  },
+  {
+    id: 4,
+    title: "Stairs 2",
+    description: "Beautiful stair renovation with matching treads",
+    images: [
+      { src: "/images/projects/stairs-2-before.jpg", label: "Before" },
+      { src: "/images/projects/stairs-2-after.jpg", label: "After" },
+    ],
+  },
+  {
+    id: 5,
+    title: "Stairs 3",
+    description: "Modern stair upgrade with durable finishes",
+    images: [
+      { src: "/images/projects/stairs-3-before.jpg", label: "Before" },
+      { src: "/images/projects/stairs-3-after.jpg", label: "After" },
+    ],
+  },
+  {
+    id: 6,
+    title: "Stairs 4",
+    description: "Elegant staircase makeover from start to finish",
+    images: [
+      { src: "/images/projects/stairs-4-before.jpg", label: "Before" },
+      { src: "/images/projects/stairs-4-after.jpg", label: "After" },
+    ],
+  },
 ];
 
 export default function BeforeAfter() {
   const [activeProject, setActiveProject] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const currentProject = beforeAfterProjects[activeProject];
   const currentImage = currentProject.images[activeImageIndex];
 
-  // Auto cycle through images
+  // Auto cycle through images (pauses on hover/interaction)
   useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
       setActiveImageIndex((prev) =>
         prev === currentProject.images.length - 1 ? 0 : prev + 1
       );
     }, 2500);
     return () => clearInterval(interval);
-  }, [activeProject, currentProject.images.length]);
+  }, [activeProject, currentProject.images.length, isPaused]);
 
   // Reset image index when project changes
   useEffect(() => {
@@ -126,7 +164,11 @@ export default function BeforeAfter() {
           className="max-w-5xl mx-auto"
         >
           {/* Image Container */}
-          <div className="relative aspect-[16/10] md:aspect-[16/9] rounded-2xl overflow-hidden">
+          <div
+            className="relative aspect-[16/10] md:aspect-[16/9] rounded-2xl overflow-hidden"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             
             {/* Image */}
             <AnimatePresence mode="wait">

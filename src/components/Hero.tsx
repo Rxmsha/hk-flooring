@@ -17,7 +17,7 @@ export default function Hero() {
             backgroundImage: `url('https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2574')`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/95 via-[var(--color-primary)]/80 to-[var(--color-primary)]/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/85 via-[var(--color-primary)]/60 to-[var(--color-primary)]/20" />
       </div>
 
       {/* Decorative Elements */}
